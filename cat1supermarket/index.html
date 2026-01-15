@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Chain - Login</title>
+    <meta name="description" content="Login to access the supermarket distributed system">
+
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+        }
+    </script>
+    <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
+
+    <style type="text/tailwindcss">
+    @layer theme {
+        :root {
+            --primary-color: #2563eb; /* Blue 600 */
+            --secondary-color: #1e40af; /* Blue 800 */
+        }
+    }
+    @layer components {
+        .input-field {
+            @apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition-all;
+        }
+        .btn-primary {
+            @apply w-full bg-[var(--primary-color)] text-white py-2 rounded-lg hover:bg-[var(--secondary-color)] transition-colors font-semibold;
+        }
+    }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div id="root"></div>
+    
+    <!-- Utilities -->
+    <script type="text/babel" src="utils/db.js"></script>
+    
+    <!-- Components -->
+    <script type="text/babel" src="components/ThemeToggle.js"></script>
+    <script type="text/babel" src="components/AuthForms.js"></script>
+    
+    <!-- App Entry -->
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>

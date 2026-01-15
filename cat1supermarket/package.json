@@ -1,0 +1,21 @@
+{
+  "name": "supermarket-app",
+  "version": "1.0.0",
+  "description": "Full-stack supermarket application with Node.js, Express, SQLite, and React",
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["supermarket", "react", "node", "express", "sqlite"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+
