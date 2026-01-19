@@ -47,7 +47,11 @@ export const inventoryAPI = {
     const params = branch && branch !== 'All' ? { branch } : {};
     return api.get('/inventory', { params });
   },
-  addItem: (itemData) => api.post('/inventory', itemData),
+  addItem: (itemData) => api.post('/inventory', itemData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }),
   updateItem: (id, data) => api.put(`/inventory/${id}`, data),
   updateStock: (id, stock) => api.put(`/inventory/${id}/stock`, { stock }),
   deleteItem: (id) => api.delete(`/inventory/${id}`),
@@ -63,6 +67,7 @@ export const inventoryAPI = {
 // Sales API
 export const salesAPI = {
   record: (saleData) => api.post('/sales', saleData),
+  getMyPurchases: () => api.get('/sales/my-purchases'),
   getReport: (filters = {}) => api.get('/sales/report', { params: filters }),
   getSummary: (branch = null) => {
     const params = branch && branch !== 'All' ? { branch } : {};

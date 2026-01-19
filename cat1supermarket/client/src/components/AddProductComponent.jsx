@@ -1,12 +1,13 @@
-import {inventoryAPI} from "../api.js";
-import {useState} from "react";
+import { inventoryAPI } from "../api.js";
+import { useState } from "react";
 
 function AddProductSection({ counties, onProductAdded }) {
     const [formData, setFormData] = useState({
         product: '',
         branch: '',
         stock: '',
-        price: ''
+        price: '',
+        image: null
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -17,20 +18,28 @@ function AddProductSection({ counties, onProductAdded }) {
         setError('');
 
         try {
-            await inventoryAPI.addItem({
-                product: formData.product.trim(),
-                branch: formData.branch.trim(),
-                stock: parseInt(formData.stock) || 0,
-                price: parseFloat(formData.price) || 0
-            });
+            const data = new FormData();
+            data.append('product', formData.product.trim());
+            data.append('branch', formData.branch.trim());
+            data.append('stock', parseInt(formData.stock) || 0);
+            data.append('price', parseFloat(formData.price) || 0);
+            if (formData.image) {
+                data.append('image', formData.image);
+            }
+
+            await inventoryAPI.addItem(data);
 
             // Reset form
             setFormData({
                 product: '',
                 branch: '',
                 stock: '',
-                price: ''
+                price: '',
+                image: null
             });
+            // Reset file input
+            const fileInput = document.getElementById('product-image');
+            if (fileInput) fileInput.value = '';
 
             // Callback to refresh inventory
             if (onProductAdded) onProductAdded();
@@ -46,10 +55,10 @@ function AddProductSection({ counties, onProductAdded }) {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, files } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: type === 'file' ? files[0] : value
         }));
     };
 
@@ -155,6 +164,24 @@ function AddProductSection({ counties, onProductAdded }) {
                                 />
                             </div>
                         </div>
+
+                        {/* Image Upload */}
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Product Image
+                            </label>
+                            <input
+                                id="product-image"
+                                type="file"
+                                name="image"
+                                onChange={handleChange}
+                                accept="image/*"
+                                className="w-full px-3 py-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                            />
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                Optional: Upload a clear image of the product
+                            </p>
+                        </div>
                     </div>
 
                     {/* Form Actions */}
@@ -189,7 +216,7 @@ function AddProductSection({ counties, onProductAdded }) {
                                 ) : (
                                     <>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                                            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                                         </svg>
                                         Add Product
                                     </>
